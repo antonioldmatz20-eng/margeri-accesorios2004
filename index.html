@@ -1,4 +1,23 @@
-html
+# Margeri Accesorios — Página Completa Lista para Publicar
+
+Guarda este archivo como:
+
+```txt
+index.html
+```
+
+Luego puedes subirlo a:
+
+* GitHub Pages
+* Netlify
+* Vercel
+* CodePen
+
+Y después incrustarlo en Google Sites.
+
+---
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -411,11 +430,6 @@ font-size:44px;
 <div class="features">
 
 <div class="feature-card">
-<h3>🚚 Envíos a Todo México</h3>
-<p>Entregas rápidas y seguras.</p>
-</div>
-
-<div class="feature-card">
 <h3>💖 Calidad Premium</h3>
 <p>Accesorios elegantes y duraderos.</p>
 </div>
@@ -567,7 +581,7 @@ font-size:44px;
 
 <div>
 <h3>Contacto</h3>
-<p>📱 WhatsApp: +52 55 1234 5678</p>
+<p>📱 WhatsApp: +52 56 2624 8820</p>
 <p>📷 Instagram: @margeri.accesorios</p>
 <p>📍 México</p>
 </div>
@@ -582,6 +596,179 @@ font-size:44px;
 <a class="whatsapp" href="https://wa.me/525512345678" target="_blank">
 ✆
 </a>
+
+<script>
+
+let productos = [
+{
+nombre:'Collar Estrella',
+precio:120,
+imagen:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=700&auto=format&fit=crop'
+},
+{
+nombre:'Aretes Perla',
+precio:95,
+imagen:'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=700&auto=format&fit=crop'
+},
+{
+nombre:'Pulsera Corazón',
+precio:140,
+imagen:'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=700&auto=format&fit=crop'
+}
+];
+
+let carrito = [];
+
+function renderProductos(){
+
+const contenedor = document.querySelector('.products');
+contenedor.innerHTML='';
+
+productos.forEach((producto,index)=>{
+
+contenedor.innerHTML += `
+<div class="product-card">
+<div class="product-image">
+<div class="badge">TOP</div>
+<img src="${producto.imagen}">
+</div>
+<div class="product-info">
+<h3>${producto.nombre}</h3>
+<div class="price">$${producto.precio} MXN</div>
+<a class="btn btn-primary" onclick="agregarCarrito(${index})">Agregar al carrito</a>
+</div>
+</div>
+`;
+
+});
+
+}
+
+function agregarCarrito(index){
+
+carrito.push(productos[index]);
+actualizarCarrito();
+
+}
+
+function actualizarCarrito(){
+
+const lista = document.getElementById('carrito-items');
+const total = document.getElementById('total');
+
+lista.innerHTML='';
+
+let suma = 0;
+
+carrito.forEach((item,i)=>{
+
+suma += item.precio;
+
+lista.innerHTML += `
+<div style="display:flex;justify-content:space-between;margin-bottom:15px;align-items:center;gap:10px;">
+<div>
+<strong>${item.nombre}</strong><br>
+<span>$${item.precio} MXN</span>
+</div>
+<button onclick="eliminarProducto(${i})" style="background:#d97b93;color:white;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;">
+X
+</button>
+</div>
+`;
+
+});
+
+total.innerHTML = '$'+suma+' MXN';
+
+}
+
+function eliminarProducto(index){
+carrito.splice(index,1);
+actualizarCarrito();
+}
+
+function toggleCarrito(){
+
+const carritoBox = document.getElementById('carrito');
+
+if(carritoBox.style.right === '0px'){
+carritoBox.style.right = '-420px';
+}else{
+carritoBox.style.right = '0px';
+}
+
+}
+
+function actualizarProducto(){
+
+const index = document.getElementById('productoSelect').value;
+const nuevoNombre = document.getElementById('nuevoNombre').value;
+const nuevoPrecio = document.getElementById('nuevoPrecio').value;
+const nuevaImagen = document.getElementById('nuevaImagen').value;
+
+productos[index].nombre = nuevoNombre;
+productos[index].precio = parseInt(nuevoPrecio);
+productos[index].imagen = nuevaImagen;
+
+renderProductos();
+
+alert('Producto actualizado correctamente');
+
+}
+
+renderProductos();
+
+</script>
+
+<div onclick="toggleCarrito()" style="position:fixed;bottom:110px;right:25px;background:#1d1d1d;color:white;padding:18px 20px;border-radius:50px;cursor:pointer;z-index:999;font-weight:600;box-shadow:0 10px 20px rgba(0,0,0,.2);">
+🛒 Carrito
+</div>
+
+<div id="carrito" style="position:fixed;top:0;right:-420px;width:400px;height:100vh;background:white;z-index:9999;box-shadow:-10px 0 30px rgba(0,0,0,.1);padding:30px;transition:.4s;overflow-y:auto;">
+
+<h2 style="margin-bottom:30px;font-family:'Playfair Display',serif;">Tu Carrito</h2>
+
+<div id="carrito-items"></div>
+
+<hr style="margin:20px 0;">
+
+<h3>Total: <span id="total">$0 MXN</span></h3>
+
+<a href="https://wa.me/525626248820" target="_blank" class="btn btn-primary" style="width:100%;text-align:center;margin-top:20px;">
+Finalizar Pedido
+</a>
+
+</div>
+
+<section class="section" style="background:#fff5f8;">
+
+<h2 class="section-title">Panel de Administración</h2>
+
+<div style="max-width:700px;margin:auto;background:white;padding:40px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.08);">
+
+<label>Seleccionar producto</label>
+<select id="productoSelect" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;">
+<option value="0">Collar Estrella</option>
+<option value="1">Aretes Perla</option>
+<option value="2">Pulsera Corazón</option>
+</select>
+
+<label>Nuevo nombre</label>
+<input id="nuevoNombre" type="text" placeholder="Nombre del producto" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;">
+
+<label>Nuevo precio</label>
+<input id="nuevoPrecio" type="number" placeholder="Precio" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;">
+
+<label>Nueva imagen URL</label>
+<input id="nuevaImagen" type="text" placeholder="https://imagen.com/foto.jpg" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;">
+
+<button onclick="actualizarProducto()" class="btn btn-primary" style="border:none;cursor:pointer;">
+Guardar Cambios
+</button>
+
+</div>
+
+</section>
 
 </body>
 </html>
