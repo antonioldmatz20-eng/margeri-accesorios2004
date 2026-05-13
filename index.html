@@ -1,23 +1,4 @@
-# Margeri Accesorios — Página Completa Lista para Publicar
-
-Guarda este archivo como:
-
-```txt
-index.html
-```
-
-Luego puedes subirlo a:
-
-* GitHub Pages
-* Netlify
-* Vercel
-* CodePen
-
-Y después incrustarlo en Google Sites.
-
----
-
-```html
+html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -430,6 +411,11 @@ font-size:44px;
 <div class="features">
 
 <div class="feature-card">
+<h3>🚚 Envíos a Todo México</h3>
+<p>Entregas rápidas y seguras.</p>
+</div>
+
+<div class="feature-card">
 <h3>💖 Calidad Premium</h3>
 <p>Accesorios elegantes y duraderos.</p>
 </div>
@@ -478,9 +464,17 @@ font-size:44px;
 <section class="section" id="productos">
 <h2 class="section-title">Nuevos Productos</h2>
 
+<div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
+<button onclick="filtrarCategoria('Todos')" class="btn btn-secondary">Todos</button>
+<button onclick="filtrarCategoria('Collares')" class="btn btn-secondary">Collares</button>
+<button onclick="filtrarCategoria('Pulseras')" class="btn btn-secondary">Pulseras</button>
+<button onclick="filtrarCategoria('Aretes')" class="btn btn-secondary">Aretes</button>
+<button onclick="filtrarCategoria('Anillos')" class="btn btn-secondary">Anillos</button>
+</div>
+
 <div class="products">
 
-<div class="product-card">
+<div class="product-card" data-categoria="${producto.categoria}">
 <div class="product-image">
 <div class="badge">NUEVO</div>
 <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=700&auto=format&fit=crop">
@@ -581,7 +575,7 @@ font-size:44px;
 
 <div>
 <h3>Contacto</h3>
-<p>📱 WhatsApp: +52 56 2624 8820</p>
+<p>📱 WhatsApp: +52 55 1234 5678</p>
 <p>📷 Instagram: @margeri.accesorios</p>
 <p>📍 México</p>
 </div>
@@ -599,27 +593,81 @@ font-size:44px;
 
 <script>
 
+// SISTEMA DE LOGIN SIMPLE
+
+const usuarioAdmin = 'admin';
+const passwordAdmin = 'margeri2026';
+
+function verificarLogin(){
+
+const usuario = prompt('Usuario administrador');
+const password = prompt('Contraseña');
+
+if(usuario !== usuarioAdmin || password !== passwordAdmin){
+alert('Acceso denegado');
+document.getElementById('admin-section').style.display='none';
+}else{
+alert('Bienvenido al panel de administración');
+document.getElementById('admin-section').style.display='block';
+}
+
+}
+
+// PRODUCTOS
+
 let productos = [
 {
 nombre:'Collar Estrella',
 precio:120,
-imagen:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=700&auto=format&fit=crop'
+imagen:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=700&auto=format&fit=crop',
+categoria:'Collares'
 },
 {
 nombre:'Aretes Perla',
 precio:95,
-imagen:'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=700&auto=format&fit=crop'
+imagen:'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=700&auto=format&fit=crop',
+categoria:'Aretes'
 },
 {
 nombre:'Pulsera Corazón',
 precio:140,
-imagen:'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=700&auto=format&fit=crop'
+imagen:'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?q=80&w=700&auto=format&fit=crop',
+categoria:'Pulseras'
+},
+{
+nombre:'Anillo Rosa',
+precio:160,
+imagen:'https://images.unsplash.com/photo-1603974372039-adc49044b6bd?q=80&w=700&auto=format&fit=crop',
+categoria:'Anillos'
 }
 ];
 
 let carrito = [];
 
+function filtrarCategoria(categoria){
+
+const cards = document.querySelectorAll('.product-card');
+
+cards.forEach(card=>{
+
+if(categoria === 'Todos'){
+card.style.display='block';
+}else{
+
+if(card.dataset.categoria === categoria){
+card.style.display='block';
+}else{
+card.style.display='none';
+}
+
+}
+
+});
+
+}
+
 function renderProductos(){
+
 
 const contenedor = document.querySelector('.products');
 contenedor.innerHTML='';
@@ -701,6 +749,8 @@ carritoBox.style.right = '0px';
 
 function actualizarProducto(){
 
+const archivo = document.getElementById('subirImagen').files[0];
+
 const index = document.getElementById('productoSelect').value;
 const nuevoNombre = document.getElementById('nuevoNombre').value;
 const nuevoPrecio = document.getElementById('nuevoPrecio').value;
@@ -708,7 +758,21 @@ const nuevaImagen = document.getElementById('nuevaImagen').value;
 
 productos[index].nombre = nuevoNombre;
 productos[index].precio = parseInt(nuevoPrecio);
+if(archivo){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+productos[index].imagen = e.target.result;
+renderProductos();
+verificarLogin();
+}
+
+reader.readAsDataURL(archivo);
+
+}else{
 productos[index].imagen = nuevaImagen;
+}
 
 renderProductos();
 
@@ -734,13 +798,13 @@ renderProductos();
 
 <h3>Total: <span id="total">$0 MXN</span></h3>
 
-<a href="https://wa.me/525626248820" target="_blank" class="btn btn-primary" style="width:100%;text-align:center;margin-top:20px;">
+<a href="https://wa.me/525512345678" target="_blank" class="btn btn-primary" style="width:100%;text-align:center;margin-top:20px;">
 Finalizar Pedido
 </a>
 
 </div>
 
-<section class="section" style="background:#fff5f8;">
+<section class="section" style="background:#fff5f8;display:none;" id="admin-section">
 
 <h2 class="section-title">Panel de Administración</h2>
 
@@ -761,6 +825,9 @@ Finalizar Pedido
 
 <label>Nueva imagen URL</label>
 <input id="nuevaImagen" type="text" placeholder="https://imagen.com/foto.jpg" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;">
+
+<label>O subir imagen propia</label>
+<input id="subirImagen" type="file" accept="image/*" style="width:100%;padding:15px;border-radius:15px;border:1px solid #ddd;margin:10px 0 20px;background:white;">
 
 <button onclick="actualizarProducto()" class="btn btn-primary" style="border:none;cursor:pointer;">
 Guardar Cambios
